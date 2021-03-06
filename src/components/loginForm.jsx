@@ -9,20 +9,18 @@ class LoginForm extends Component {
   };
 
   schema = Joi.object({
-    username: Joi.string().required(),
-    password: Joi.string().required(),
+    username: Joi.string().required().label('Username'),
+    password: Joi.string().required().label('Password'),
   });
 
   validate = () => {
+    const options = { abortEarly: false };
+    const { error } = this.schema.validate(this.state.account, options);
+    if (!error) return null;
+
     const errors = {};
-
-    const { account } = this.state;
-    if (account.username.trim() === '')
-      errors.username = 'Username is required';
-    if (account.password.trim() === '')
-      errors.password = 'Password is required';
-
-    return Object.keys(errors).length === 0 ? null : errors;
+    for (let item of error.details) errors[item.path[0]] = item.message;
+    return errors;
   };
 
   handleSubmit = (e) => {
@@ -37,20 +35,12 @@ class LoginForm extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-    switch (name) {
-      case 'username':
-        if (value.trim() === '') return 'Username is required';
-        // ...
-        break;
-
-      case 'password':
-        if (value.trim() === '') return 'Password is required';
-        // ...
-        break;
-
-      default:
-        return null;
-    }
+    const input = { [name]: value };
+    const schema = Joi.object({
+      [name]: this.schema._ids._byKey.get(name).schema,
+    });
+    const { error } = schema.validate(input);
+    return error ? error.details[0].message : null;
   };
 
   handleChange = ({ currentTarget: input }) => {
