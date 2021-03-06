@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import MoviesTable from "./moviesTable";
-import ListGroup from "./common/listGroup";
-import Pagination from "./common/pagination";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
-import { paginate } from "../utils/paginate";
-import _ from "lodash";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
+import MoviesTable from './moviesTable';
+import ListGroup from './common/listGroup';
+import Pagination from './common/pagination';
+import { getMovies } from '../services/fakeMovieService';
+import { getGenres } from '../services/fakeGenreService';
+import { paginate } from '../utils/paginate';
 
 class Movies extends Component {
   state = {
@@ -13,11 +14,11 @@ class Movies extends Component {
     genres: [],
     currentPage: 1,
     pageSize: 4,
-    sortColumn: { path: "title", order: "asc" },
+    sortColumn: { path: 'title', order: 'asc' },
   };
 
   componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
+    const genres = [{ _id: '', name: 'All Genres' }, ...getGenres()];
 
     this.setState({ movies: getMovies(), genres });
   }
@@ -73,15 +74,22 @@ class Movies extends Component {
     const movies = paginate(sorted, currentPage, pageSize);
 
     return (
-      <div className="row">
-        <div className="col-3">
+      <div className='row'>
+        <div className='col-3'>
           <ListGroup
             items={this.state.genres}
             selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
-        <div className="col">
+        <div className='col'>
+          <Link
+            to='/movies/new'
+            className='btn btn-primary'
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
           <p>Showing {filtered.length} movies in the database.</p>
           <MoviesTable
             movies={movies}
