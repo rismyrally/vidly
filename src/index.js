@@ -4,15 +4,20 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import logger, { ErrorBoundary } from './services/logService';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 
+logger.init();
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ErrorBoundary fallback={'Ann error has occurred'}>
+        <App />
+      </ErrorBoundary>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
