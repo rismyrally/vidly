@@ -15,6 +15,7 @@ const Pagination = ({ itemCount, pageSize, currentPage, onPageChange }) => {
             key={page}
             className={page === currentPage ? 'page-item active' : 'page-item'}
           >
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a className='page-link' onClick={() => onPageChange(page)}>
               {page}
             </a>
