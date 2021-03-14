@@ -14,13 +14,15 @@ class RegisterForm extends Form {
       .required()
       .email({ tlds: { allow: false } })
       .label('Username'),
-    password: Joi.string().required().min(5).label('Password'),
+    password: Joi.string().required().min(8).label('Password'),
     name: Joi.string().required().label('Name'),
   });
 
   doSubmit = async () => {
     try {
-      await register(this.state.data);
+      const response = await register(this.state.data);
+      localStorage.setItem('token', response.headers['x-auth-token']);
+      this.props.history.push('/');
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
