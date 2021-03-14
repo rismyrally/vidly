@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import auth from './authService';
 import logger from './logService';
+
+axios.defaults.headers.common['x-auth-token'] = auth.getJwt();
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
@@ -16,7 +19,6 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error);
 });
 
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   get: axios.get,
   post: axios.post,
