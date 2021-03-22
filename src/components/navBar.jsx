@@ -19,7 +19,7 @@ const NavBar = ({ user }) => {
         <span className='navbar-toggler-icon'></span>
       </button>
       <div className='collapse navbar-collapse' id='navbarNav'>
-        <ul className='navbar-nav'>
+        <ul className='navbar-nav mr-auto'>
           <li className='nav-item'>
             <NavLink className='nav-link' to='/movies'>
               Movies
@@ -35,6 +35,8 @@ const NavBar = ({ user }) => {
               Rentals
             </NavLink>
           </li>
+        </ul>
+        <ul className='navbar-nav'>
           {!user && (
             <>
               <li className='nav-item'>
